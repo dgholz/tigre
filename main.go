@@ -9,6 +9,7 @@ import (
 
 type Tigre struct {
 	client api.RESTClient
+	user   string
 }
 
 func main() {
@@ -18,13 +19,18 @@ func main() {
 	}
 	tigre := Tigre{client: *client}
 
+	tigre.set_user()
+	fmt.Printf("%+v\n", tigre)
+}
+
+func (t *Tigre) set_user() {
 	response := struct {
 		Login string
 	}{}
-	err = tigre.client.Get("user", &response)
+	err := t.client.Get("user", &response)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(response.Login)
+	t.user = response.Login
 }
