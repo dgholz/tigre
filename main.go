@@ -7,15 +7,22 @@ import (
 	"github.com/cli/go-gh/v2/pkg/api"
 )
 
+type Tigre struct {
+	client api.RESTClient
+}
+
 func main() {
 	client, err := api.DefaultRESTClient()
 	if err != nil {
 		log.Fatal(err)
 	}
+	tigre := Tigre{client: *client}
+
 	response := struct {
 		Login string
 	}{}
-	err = client.Get("user", &response)
+	err = tigre.client.Get("user", &response)
+
 	if err != nil {
 		log.Fatal(err)
 	}
